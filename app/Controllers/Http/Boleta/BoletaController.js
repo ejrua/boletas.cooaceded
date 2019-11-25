@@ -1,11 +1,13 @@
 'use strict'
 
 const Event = use('Event')
+const Ws = use('Ws')
 const Database = use('Database')
 
 const Boleta = use('App/Models/Boleta')
 const Movimiento = use('App/Models/Movimiento')
 
+const Chat = use('App/Controllers/Ws/ChatController')
 
 const axios = use('axios')
 const { validate } = use('Validator')
@@ -17,7 +19,7 @@ class BoletaController {
         const boletas = await Database
                                 .table('boletas')
                                 .where({ is_active: 0 })
-                                .orderBy('id', 'desc')
+                                .orderBy('id', 'asc')
 
 
       //  console.log("bol:"+boletas.length)
@@ -96,11 +98,12 @@ class BoletaController {
            tipo = "danger"
            mensaje = 'No es existe, ' +  cedula
             
-        } else if((resp.data[0].fields.deudaaporte>0 || resp.data[0].fields.sinaporte  > 0 || resp.data[0].fields.deudacredito>0 || resp.data[0].fields.afiliacion>0)){
+        } else if(( resp.data[0].fields.estado_Actual!= 'A' || resp.data[0].fields.deudaaporte>0 || resp.data[0].fields.sinaporte  > 0 || resp.data[0].fields.deudacredito>0 || resp.data[0].fields.afiliacion>0)){
         
             tipo = "danger"
-            mensaje:'No es Habil, ' + resp.data[0].fields.empleado
-        }
+            mensaje = 'No es Habil, ' + resp.data[0].fields.empleado
+        } 
+
 
 
         if(tipo){
@@ -129,7 +132,10 @@ class BoletaController {
         boleta.is_habil = 1 
         
         await user.boleta().save(boleta)
-        Event.fire('add::boleta', boleta)
+     //   Event.fire('add::boleta', boleta)
+
+        Ws.getChannel('chat').topic('chat').broadcast('nuevo',boleta.id)
+
                  
         session.flash({
             notification:{
@@ -151,13 +157,15 @@ class BoletaController {
         boleta.is_active = 1
 
 		await boleta.save()
-
-   
-
+         //Event.fire('add::boleta', boleta)
+      
+        // Mensaje Socket
+        Ws.getChannel('chat').topic('chat').broadcast('message',boleta.id)
+      
         session.flash({
             notification:{
                 type:'success',
-                message:'Boleta ' + boleta.id +' entregada',
+                message:'Boleta ' + boleta.id +' entregada...',
                 
             }
         })

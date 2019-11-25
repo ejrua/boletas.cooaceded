@@ -13,20 +13,43 @@
     <script>
       const conn = adonis.Ws().connect()
       conn.on('open', () => {
-        const chat = conn.subscribe('chat')
-        chat.on('error', console.log)
-        chat.emit('message','Desde la pagina un mensaje')
-        console.log("En el Chat")
-        chat.on('message', function (message) {
-         
-            console.log("dentro "+message);
-            var ul = document.getElementById("lista");
-            var li = document.createElement('li');
-            li.appendChild(document.createTextNode(message));
-            ul.appendChild(li);
-           
+        try {
+          const chat = conn.subscribe('chat')
+       //   chat.on('error', console.log)
+          chat.emit('message','Desde la pagina un mensaje')
+          console.log("En el Chat")
+          chat.on('message', function (message) {
+
             
-        })
+                console.log("dentro "+message);
+                var ul = document.getElementById("lista");
+                var li = document.createElement('li');
+                li.appendChild(document.createTextNode(message));
+                ul.appendChild(li);
+            
+            
+              
+            })
+            chat.on('nuevo', function (message) {
+
+                            
+                console.log("nuevo "+message);
+                var ul = document.getElementById("lista");
+                var li = document.createElement('li');
+                li.appendChild(document.createTextNode(message));
+                ul.appendChild(li);
+
+
+
+                })
+          }
+          catch(error) {
+          //  console.error(error);
+            // expected output: ReferenceError: nonExistentFunction is not defined
+            // Note - error messages will vary depending on browser
+          }
+ 
+     
         
        
  

@@ -8,31 +8,23 @@ class ChatController {
     this.request = request
 
     console.log('Nueva suscripcion al topic', socket.topic)
+        
   }
 
-  
 
   onMessage (message) {
 
-    this.socket.emit('message', 'Hola Mundo')
-    console.log('Mensaje: ', message)
-
-
-    Event.on('add::boleta', async (boleta) => {
-      boleta.id
-      console.log("Desde el evento" + boleta.id)
-      this.socket.emit('message', "Desde el evento" + boleta.id)
-
-    })
-  }
-
-  disconnected(socket){
-    console.log("Desconectado del Socket ID %s",socket.id)
+        console.log('Mensaje: ', message)
   }
 
   onClose () {
-    console.log('Cerrado el room topic', this.socket.topic)
+ 
+    console.log('Cerrado el room topic', this.socket.id)
+    this.socket.on(this.socket.topic)
+
   }
 }
 
 module.exports = ChatController
+
+
