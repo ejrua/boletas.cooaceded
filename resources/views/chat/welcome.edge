@@ -1,0 +1,35 @@
+  
+@layout('layout.app')
+
+@section('content')
+<div class= "container">Grupo
+  <ul class="list-group" id="lista">
+  </ul>
+ </div> 
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.js"></script>
+    <script src="https://unpkg.com/@adonisjs/websocket-client"></script>
+    
+    <script>
+      const conn = adonis.Ws().connect()
+      conn.on('open', () => {
+        const chat = conn.subscribe('chat')
+        chat.on('error', console.log)
+        chat.emit('message','Desde la pagina un mensaje')
+        console.log("En el Chat")
+        chat.on('message', function (message) {
+         
+            console.log("dentro "+message);
+            var ul = document.getElementById("lista");
+            var li = document.createElement('li');
+            li.appendChild(document.createTextNode(message));
+            ul.appendChild(li);
+           
+            
+        })
+        
+       
+ 
+      })
+    </script>
+@endsection

@@ -1,0 +1,37 @@
+@layout('layout.app')
+
+@section('content')
+    
+    
+    
+    <div class="columns">
+        <div class="column is-4 is-offset-4">
+            <h2 class="title has-text-centered">Entrega de Boletas</h2>
+
+                @include('includes.notification')
+                    
+                <form action="/boletas" method="POST" >
+                    {{ csrfField() }}	
+
+                
+                    <div class="field">
+                        <label class="label">Cedula</label>
+                        <div class="control">
+                            <input 
+                                type="text" 
+                                class="input {{ hasErrorFor('cedula') ? 'is-danger' : '' }}" 
+                                name="cedula"
+                        value="{{ old('username','') }}">
+                        </div>
+                        {{ elIf('<span class="help is-danger">$self</span>',getErrorFor('cedula'),hasErrorFor('cedula')) }}
+                    </div>
+
+
+                    <div class="control">
+                        <button type="submit" class="button is-dark is-fullwidth is-uppercase">Guardar</button>
+                    </div>
+                    </form>
+         </div>
+    </div>
+     
+    @endsection

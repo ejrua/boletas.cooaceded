@@ -1,0 +1,45 @@
+@layout('layout.app')
+
+@section('content')
+    @include('includes.notification')
+    <p id="log">Nada</p>
+    <table class="table is-striped " >
+        
+        <thead>
+        <tr>
+            <th>Boleta</th>
+            <th>Asociado</th>
+            <th>Entregada</th>
+        </tr>
+        </thead>
+        
+        <tbody>
+            @each(boleta in boletas)
+                    <tr>
+                        <th> {{ boleta.id }}</th>
+                        <th> {{ boleta.nombre }} </th>
+                        <th>
+                            <form action="/boletas/{{boleta.id}}" method="POST" name="entregadaForm">
+                                {{ csrfField() }}	
+                                <div class="control">
+                                    <button type="submit" class="button is-success is-fullwidth is-uppercase">Entregar</button>
+                                </div> 
+                            </form>
+                        </th>
+                    </tr>
+            
+            @endeach
+        </tbody>
+    </table>     
+    <script>
+
+        var eventSource = new EventSource('add::boleta');
+       
+        eventSource.onmessage = function(event) {
+            alert("Si.");
+             document.getElementById('log').innerHTML += event.data + '<br>';
+        };
+        
+    </script>    
+
+@endsection

@@ -4,10 +4,14 @@ const User = use('App/Models/User')
 const Hash = use('Hash')
 
 class LoginController {
+    
     showLoginForm({ view }){
         return view.render('auth.login')
     }
+
     async login({ request, auth, session, response}){
+
+
         //Pidiendo datos
         const { email, password, remember} = request.all()
         // recuperado el usuario de la BD 
@@ -22,7 +26,7 @@ class LoginController {
             if(passwordVerified){
                 //logieando el usuario
                 await auth.remember(!!remember).login(user)
-                return response.route('/')
+                return response.route('/boletas/add')
             }
         }
         // Mostrando mensaje de errores 

@@ -1,5 +1,10 @@
 @if(flashMessage('notification'))
+  
   <div class="notification is-{{ flashMessage('notification.type') }}">
     {{ flashMessage('notification.message') }}
+    <br>
+    <p class="has-text-weight-bold has-text-centered">
+     {{ flashMessage('notification.message2') }}
+    </p>
   </div>
 @endif

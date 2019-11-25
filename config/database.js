@@ -71,7 +71,7 @@ module.exports = {
   pg: {
     client: 'pg',
     connection: {
-      host: Env.get('DB_HOST', '190.248.29.148'),
+      host: Env.get('DB_HOST', '190.248.29.14'),
       port: Env.get('DB_PORT', ''),
       user: Env.get('DB_USER', 'apirest'),
       password: Env.get('DB_PASSWORD', 'Ejrua2517'),
