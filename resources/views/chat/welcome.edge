@@ -17,11 +17,11 @@
           const chat = conn.subscribe('chat')
        //   chat.on('error', console.log)
           chat.emit('message','Desde la pagina un mensaje')
-          console.log("En el Chat")
+        //  console.log("En el Chat")
           chat.on('message', function (message) {
 
             
-                console.log("dentro "+message);
+                //console.log("dentro "+message);
                 var ul = document.getElementById("lista");
                 var li = document.createElement('li');
                 li.appendChild(document.createTextNode(message));
@@ -33,7 +33,7 @@
             chat.on('nuevo', function (message) {
 
                             
-                console.log("nuevo "+message);
+              //  console.log("nuevo "+message);
                 var ul = document.getElementById("lista");
                 var li = document.createElement('li');
                 li.appendChild(document.createTextNode(message));

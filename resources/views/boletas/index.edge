@@ -9,7 +9,7 @@
         <tr>
             <th>Boleta</th>
             <th>Asociado</th>
-            <th>Entregada</th>
+            <th>Entregar</th>
         </tr>
         </thead>
         
@@ -31,15 +31,33 @@
             @endeach
         </tbody>
     </table>     
-    <script>
 
-        var eventSource = new EventSource('add::boleta');
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.js"></script>
+    <script src="https://unpkg.com/@adonisjs/websocket-client"></script>
+    <script>
+        const conn = adonis.Ws().connect()
+        conn.on('open', () => {
+          try {
+            const chat = conn.subscribe('chat')
+         
+              chat.on('nuevo', function (message) {
+                              
+                 // console.log("nuevo "+message);
+                  document.location.reload();
+  
+                  })
+            }
+            catch(error) {
+            //  console.error(error);
+              // expected output: ReferenceError: nonExistentFunction is not defined
+              // Note - error messages will vary depending on browser
+            }
+   
        
-        eventSource.onmessage = function(event) {
-            alert("Si.");
-             document.getElementById('log').innerHTML += event.data + '<br>';
-        };
-        
-    </script>    
+          
+         
+   
+        })
+      </script> 
 
 @endsection

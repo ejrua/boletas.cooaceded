@@ -4,7 +4,7 @@ const { validateAll } = use('Validator')
 const User = use('App/Models/User')
 
 const randomstring = require('random-string')
-const Mail = use('Mail')
+//const Mail = use('Mail')
 
 class RegisterController {
     showRegisterForm({ view }){
@@ -30,14 +30,14 @@ class RegisterController {
             confirmation_token: randomstring({ lenght: 40 })
         })
         // enviando email de confirmacion 
-        const test = await Mail.send('auth.emails.confirm_email',user.toJSON(),(message) => {
-            message
-            .to(user.email,'ejruaa@gmail.com','ejrua@cooaceded.coop')
-            .from('ejrua@cooaceded.coop')
-            .subject(' Por favor confirma tu email')
+        // const test = await Mail.send('auth.emails.confirm_email',user.toJSON(),(message) => {
+        //     message
+        //     .to(user.email,'ejruaa@gmail.com','ejrua@cooaceded.coop')
+        //     .from('ejrua@cooaceded.coop')
+        //     .subject(' Por favor confirma tu email')
 
-        })
-        console.log(test)
+        // })
+        // console.log(test)
         // Mostrando mensaje de Satisfación
         session.flash({
             notifaction: {

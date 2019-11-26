@@ -1,13 +1,11 @@
 'use strict'
 
-const Event = use('Event')
+const Mail = use('Mail')
 const Ws = use('Ws')
 const Database = use('Database')
 
 const Boleta = use('App/Models/Boleta')
 const Movimiento = use('App/Models/Movimiento')
-
-const Chat = use('App/Controllers/Ws/ChatController')
 
 const axios = use('axios')
 const { validate } = use('Validator')
@@ -21,7 +19,12 @@ class BoletaController {
                                 .where({ is_active: 0 })
                                 .orderBy('id', 'asc')
 
-
+        // const test = await Mail.send('boletas.index', "Bienvenido", (message) => {
+        //     message
+        //         .from('ejruaa@gmail.com')
+        //         .to('ejrua@hotmail.com')
+        //     })
+        // console.loog(test)    
       //  console.log("bol:"+boletas.length)
         if(!boletas.length){
             session.flash({

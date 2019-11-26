@@ -12,6 +12,7 @@ class UserSchema extends Schema {
       table.string('password', 60).notNullable()
       table.string('confirmation_token')
       table.boolean('is_active').defaultTo(0)
+      table.string('roles', 20).defaultTo('guest')
       table.timestamps()
     })
   }
