@@ -1,0 +1,69 @@
+@layout('layout.app')
+
+@section('content')
+
+    <section class="hero is-info">
+        <div class="hero-body">
+            <div class="container">
+            <h1 class="title">
+                Entrega de Boletas
+            </h1>
+            <h2 class="subtitle">
+                Asociados con numero de boletas
+            </h2>
+            </div>
+        </div>
+    </section>
+    <div class="media-content">
+            <div class="content">
+            <table class="table is-striped" >
+                
+                <thead>
+                <tr>
+                    <th class="is-size-5  has-text-centered	"> Boleta</th>
+                    <th class="is-size-5  has-text-centered	"> Asociado</th>
+                    
+                </tr>
+                </thead>
+                
+                <tbody>
+                    @each(boleta in boletas)
+                            <tr>
+                                <th class="is-size-4 has-text-success has-text-centered	"> {{ boleta.id }}</th>
+                                <th class="is-size-4 has-text-info has-text-centered	"> {{ boleta.nombre }} </th>                        
+                            </tr>
+                    
+                    @endeach
+                </tbody>
+            </table>     
+        </div>    
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.js"></script>
+    <script src="https://unpkg.com/@adonisjs/websocket-client"></script>
+    <script>
+        const conn = adonis.Ws().connect()
+        conn.on('open', () => {
+          try {
+            const chat = conn.subscribe('chat')
+         
+              chat.on('entregada', function (message) {
+                              
+                 // console.log("nuevo "+message);
+                  document.location.reload();
+  
+                  })
+            }
+            catch(error) {
+            //  console.error(error);
+              // expected output: ReferenceError: nonExistentFunction is not defined
+              // Note - error messages will vary depending on browser
+            }
+   
+       
+          
+         
+   
+        })
+      </script> 
+
+@endsection

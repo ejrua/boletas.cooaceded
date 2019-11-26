@@ -23,6 +23,29 @@
         <div id="navMenu" class="navbar-menu">
           <div class="navbar-end">
               @loggedIn
+              
+              <div class="navbar-item has-dropdown is-hoverable">
+
+                  <a class="navbar-link">
+                    Boletas -  {{auth.user.roles }}
+                  </a>
+                  <div class="navbar-dropdown">
+                    
+                    <a class="navbar-item"  href="http://api.cooaceded.coop:3333/boletas/add">
+                      Validar
+                    </a>
+                    @if(auth.user.roles == 'admin')
+                      <a class="navbar-item"  href="http://api.cooaceded.coop:3333/boletas/">
+                        Entregar
+                      </a>
+                    @endif
+                    <hr class="navbar-divider">
+                    <a class="navbar-item"  href="http://api.cooaceded.coop:3333/boletas/entregadas">
+                      Entregadas
+                    </a>
+              </div>
+           
+             </div>
               <div class="navbar-item has-dropdown is-hoverable">
                   <a class="navbar-link">
                       {{ auth.user.username }}

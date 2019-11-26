@@ -24,10 +24,13 @@ Route.get('login','Auth/LoginController.showLoginForm')
 Route.post('login','Auth/LoginController.login').as('login')
 Route.get('logout','Auth/AuthenticatedController.logout')
 
+
 Route.get('boletas','Boleta/BoletaController.index').middleware(["auth", "admin"]);
+Route.get('boletas/entregadas','Boleta/BoletaController.entregadas').middleware('auth')
 Route.get('boletas/add','Boleta/BoletaController.add').middleware('auth')
 Route.post('boletas','Boleta/BoletaController.store').as('boletas').middleware('auth')
 Route.post('boletas/:id', 'Boleta/BoletaController.update').middleware(["auth", "admin"]);
+
 
 
 Route.on('/ws').render('chat/welcome').middleware(["auth", "admin"]);

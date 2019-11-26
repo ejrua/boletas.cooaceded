@@ -41,6 +41,28 @@ class BoletaController {
         })
     }
    
+    async entregadas({view,session}){
+        //const boletas = await Boleta.all()
+        const boletas = await Database
+                                .table('boletas')
+                                .where({ is_active: 1 })
+                                .orderBy('id', 'desc').limit(8)
+
+   
+        if(!boletas.length){
+            session.flash({
+                notification:{
+                    type:'warning',
+                    message:'No hay boletas por entregar',
+                }
+            })
+        }
+
+        return view.render('boletas.entregadas',{   
+              boletas:boletas  
+        })
+    }
+   
 
     async add({view}){
         return view.render('boletas.add')
@@ -120,13 +142,6 @@ class BoletaController {
             })
             return response .redirect('back')
         }
-      
-      // OOOOOOO jjjj OOOOOOOOO  
-      //  hay que habilitar y desahibiltar un usuario para registrar boletas
-      // OOOOOOO jjjj OOOOOOOOO  
-
-
-      //  console.log("Cedula:"+resp.data[0].pk)    
      
         const boleta = await new Boleta()
         boleta.cedula = resp.data[0].pk,
@@ -136,6 +151,12 @@ class BoletaController {
         
         await user.boleta().save(boleta)
      //   Event.fire('add::boleta', boleta)
+
+        
+        /*
+        OJO hay que validar que hay un suscripcion, es decir una pagina que consuma el socket
+        para este caso /boletas/index, esta pagina consume el socket
+        */
 
         Ws.getChannel('chat').topic('chat').broadcast('nuevo',boleta.id)
 
@@ -163,7 +184,7 @@ class BoletaController {
          //Event.fire('add::boleta', boleta)
       
         // Mensaje Socket
-        Ws.getChannel('chat').topic('chat').broadcast('message',boleta.id)
+        Ws.getChannel('chat').topic('chat').broadcast('entregada',boleta.id)
       
         session.flash({
             notification:{
