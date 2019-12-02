@@ -1,0 +1,26 @@
+@layout('layout.app')
+
+@section('content')
+   
+    <table class="table is-striped " >
+        
+        <thead>
+        <tr>
+            <th>Boleta</th>
+            <th>Observación</th>
+        </tr>
+        </thead>
+        
+        <tbody>
+            @each(excepcion in excepcion)
+                    <tr>
+                        <th> {{ excepcion.cedula}}</th>
+                        <th> {{ excepcion.observacion }} </th>
+                        
+                    </tr>
+            
+            @endeach
+        </tbody>
+    </table>     
+
+@endsection

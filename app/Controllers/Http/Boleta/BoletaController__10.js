@@ -6,7 +6,6 @@ const Database = use('Database')
 
 const Boleta = use('App/Models/Boleta')
 const Movimiento = use('App/Models/Movimiento')
-const Excepcion = use('App/Models/Excepcion')
 
 //const FormatearBoleta = use('App/Controllers/Boleta/FormatearBoleta')
 
@@ -158,27 +157,18 @@ class BoletaController {
         return response.redirect('back')
         }
 
-
-        const excepcion = await Excepcion.findBy('cedula',cedula)
-     //   console.log(excepcion)
-
-        var tipo = ""
-
         const resp = await axios.get('http://api.cooaceded.coop/estado/personaRegistro/' + cedula)
-        .then((response) => {
-          //  console.log(response)
-            return response;
+            .then((response) => {
+                console.log(response)
+                return response;
         });
-        
-        if(!excepcion){
-           
 
-            //console.log("Cedula:"+resp.data[0].fields.deudaaporte+','+resp.data[0].fields.sinaporte+','+resp.data[0].fields.deudacredito+','+resp.data[0].fields.afiliacion)    
-         
-            var mensaje=""
-            var is_habil = 1
-          //  console.log("Mira0:" + resp.data[0].pk)
+        //console.log("Cedula:"+resp.data[0].fields.deudaaporte+','+resp.data[0].fields.sinaporte+','+resp.data[0].fields.deudacredito+','+resp.data[0].fields.afiliacion)    
+        var tipo = ""
+        var mensaje=""
+        var is_habil = 1
        
+        if(!params.excepcion){
             if (!resp.data[0]){
             
             tipo = "danger"
@@ -189,13 +179,17 @@ class BoletaController {
                 tipo = "danger"
                 mensaje = 'No es Habil, ' + resp.data[0].fields.empleado
             }             
-        } else  {
-                  
+        } else if(!resp.data[0]){
+                    
+                    tipo = "danger"
+                    mensaje = 'No es existe, ' +  cedula
                     is_habil = 0
-                    this.movimiento(user,cedula,'6757270', 'Autorizada por el Gerente')
-        } 
-        
-        //console.log("Mira1:" + resp.data[0].pk)
+                    this.movimiento(user,cedula,'6757270', 'No existe')
+                }else {
+                        is_habil = 0
+                        this.movimiento(user,cedula,'6757270', 'Autorizada por el Gerente')
+                    } 
+          
         
 
         if(tipo){
@@ -209,7 +203,7 @@ class BoletaController {
             })
             return response .redirect('back')
         }
-      
+     
         /*
         Cuando hay excepciones debemos asegurardos que pertenezca a la BD
         */ 

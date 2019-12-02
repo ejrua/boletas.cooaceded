@@ -6,6 +6,8 @@
     <title>Autenticación COOACEDED</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
     <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
   </head>
   <body>
     <nav class="navbar is-primary">
@@ -27,22 +29,28 @@
               <div class="navbar-item has-dropdown is-hoverable">
 
                   <a class="navbar-link">
-                    Boletas -  {{auth.user.roles }}
+                    Boletas({{auth.user.roles }})
                   </a>
                   <div class="navbar-dropdown">
-                    
-                    <a class="navbar-item"  href="http://api.cooaceded.coop:3333/boletas/add">
-                      Validar
-                    </a>
-                    @if(auth.user.roles == 'admin')
-                      <a class="navbar-item"  href="http://api.cooaceded.coop:3333/boletas/">
-                        Entregar
-                      </a>
-                    @endif
-                    <hr class="navbar-divider">
-                    <a class="navbar-item"  href="http://api.cooaceded.coop:3333/boletas/entregadas">
-                      Entregadas
-                    </a>
+                  
+                  <a class="navbar-item"  href="http://api.cooaceded.coop:3333/boletas/add">
+                    Validar
+                  </a>                  
+                  <a class="navbar-item"  href="http://api.cooaceded.coop:3333/boletas/">
+                    Entregar
+                  </a>  
+                  <hr class="navbar-divider">                                      
+                
+                  @if(auth.user.roles == 'admin')
+                    <a class="navbar-item"   href="http://api.cooaceded.coop:3333/excepcion/create">
+                        Excepciones  
+                    </a>                                                                      
+                  @endif
+
+                  <hr class="navbar-divider">
+                  <a class="navbar-item"  href="http://api.cooaceded.coop:3333/boletas/entregadas">
+                    Entregadas
+                  </a>
               </div>
            
              </div>
@@ -53,7 +61,12 @@
                   <div class="navbar-dropdown">
                       <a class="navbar-item">
                           <a class="navbar-item" href="/logout">Logout</a>
-                        </a>                                  
+                        </a>              
+                        @if(auth.user.roles == 'admin')
+                        <a class="navbar-item"   href="http://api.cooaceded.coop:3333/permisos">
+                            Permisos  
+                        </a>                                                                      
+                      @endif                    
                         <a class="navbar-item">
                           Acerca
                         </a>

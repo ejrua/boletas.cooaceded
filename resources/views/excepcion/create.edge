@@ -1,0 +1,108 @@
+@layout('layout.app')
+
+@section('content')
+    
+    
+    
+    <div class="columns">
+        <div class="column is-4 is-offset-4">
+            <h2 class="title has-text-centered">Excepción Asociado</h2>
+
+                @include('includes.notification')
+
+                <form action="/excepcion/query" method="GET">
+                  
+                    <div class="field">
+                        <label class="label">Cedula</label>
+                        <div class="control">
+                            <input id="cedula"
+                                type="number" 
+                                class="input {{ hasErrorFor('cedula') ? 'is-danger' : '' }}" 
+                                name="cedula"
+                                {{excepcion.data[0].pk>0 ? 'disabled' : ''}}>
+                        </div>                        
+                    </div>
+                    <div class="control">
+                        <button class="button is-success is-fullwidth is-uppercase"  {{excepcion.data[0].pk>0 ? 'disabled' : ''}}>Consultar</button>
+                        
+                    </div> 
+                </form>
+                <br>
+                <p class="has-background-danger">{{excepcion.data[0].pk}} - {{excepcion.data[0].fields.empleado}}</p> 
+            
+                <div class="tags  are-large">
+                     @if(excepcion.data[0].pk)
+                       
+                        @if( excepcion.data[0].fields.estado_Actual == 'A')
+                            <span class="tag is-success is-light">Activo</span>
+                        @else
+                            <span class="tag is-danger is-light">Inactivo</span>
+                        @endif  
+
+                        @if( resp.data[0].fields.afiliacion > 0)
+                            <span class="tag is-danger is-light">Afiliación</span>
+                        @else
+                            <span class="tag is-success is-light">Afiliación</span>
+                        @endif  
+
+                        @if(excepcion.data[0].fields.deudaaporte>0 || excepcion.data[0].fields.sinaporte  > 0)
+                             <span class="tag is-danger is-light">Aporte</span>
+                        @else
+                           <span class="tag is-success is-light">Aporte</span>
+                        @endif   
+
+                        @if( excepcion.data[0].fields.deudacredito > 0)
+                            <span class="tag is-danger is-light">Credito</span>
+                        @else
+                            <span class="tag is-success is-light">Credito</span>
+                        @endif
+                    
+                      
+                        
+                    @endif   
+
+                   
+                    
+                </div>
+
+                
+                    
+                <form action="/excepcion/" method="POST" >
+                    {{ csrfField() }}	
+                    <div class="field">
+                            
+                            <div class="control">
+                                <input 
+                                    type="hidden" 
+                                    class="input {{ hasErrorFor('cedula') ? 'is-danger' : '' }}" 
+                                    name="cedula"
+                                    value="{{excepcion.data[0].pk}}">
+                            </div>                 
+            
+                    <div class="field">
+                        <label class="label">Observacion</label>
+                        <div class="control">
+                             
+                            <textarea  
+                                type="text" 
+                                class="textarea" 
+                                name="observacion"
+                                rows="3"
+                                placeholder="Ej: amigo muy importante"
+                                value="{{ old('username','') }}" 
+                                {{excepcion.data[0].pk>0 ? '' : 'disabled'}}>
+                            </textarea>
+                        </div>
+                        {{ elIf('<span class="help is-danger">$self</span>',getErrorFor('cedula'),hasErrorFor('cedula')) }}
+                    </div>        
+
+
+                    <div class="control">
+                      
+                    <button type="submit" class="button is-dark is-fullwidth is-uppercase"  {{excepcion.data[0].pk>0 ? '' : 'disabled'}}>Habilitar</button>
+                    </div>
+                    </form>
+         </div>
+    </div>
+
+    @endsection

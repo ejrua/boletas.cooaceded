@@ -6,11 +6,11 @@
     
     <div class="columns">
         <div class="column is-4 is-offset-4">
-            <h2 class="title has-text-centered">Validar Asociado</h2>
+            <h2 class="title has-text-centered">Asociado con Excepciones</h2>
 
                 @include('includes.notification')
                     
-                <form action="/boletas" method="POST" >
+                <form action="/boletas/excepcion/1" method="POST" >
                     {{ csrfField() }}	
 
                 
@@ -18,7 +18,7 @@
                         <label class="label">Cedula</label>
                         <div class="control">
                             <input 
-                                type="number" 
+                                type="text" 
                                 class="input {{ hasErrorFor('cedula') ? 'is-danger' : '' }}" 
                                 name="cedula"
                         value="{{ old('username','') }}">

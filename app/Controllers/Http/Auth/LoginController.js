@@ -39,6 +39,9 @@ class LoginController {
         return response .redirect('back')
         
     }
+
+  
+    
 }
 
 module.exports = LoginController

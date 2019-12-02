@@ -16,7 +16,7 @@
         <tbody>
             @each(boleta in boletas)
                     <tr>
-                        <th> {{ boleta.id }}</th>
+                        <th> {{ boleta.idformateada}}</th>
                         <th> {{ boleta.nombre }} </th>
                         <th>
                             <form action="/boletas/{{boleta.id}}" method="POST" name="entregadaForm">

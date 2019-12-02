@@ -43,6 +43,11 @@ class User extends Model {
     return this.hasMany('App/Models/Boleta')
   }
 
+  excepcion () {
+    return this.hasMany('App/Models/Excepcion')
+  }
+
+
 }
 
 module.exports = User

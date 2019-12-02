@@ -24,13 +24,22 @@ Route.get('login','Auth/LoginController.showLoginForm')
 Route.post('login','Auth/LoginController.login').as('login')
 Route.get('logout','Auth/AuthenticatedController.logout')
 
+Route.get('permisos','Auth/PermisoController.index').middleware(["auth", "admin"])
+Route.post('permisos/:id','Auth/PermisoController.store').middleware(["auth", "admin"])
 
-Route.get('boletas','Boleta/BoletaController.index').middleware(["auth", "admin"]);
+Route.get('dashboard','DashBoard/DashBoardController.index').middleware(["auth", "admin"])
+
+Route.get('boletas','Boleta/BoletaController.index').middleware(["auth"]);
 Route.get('boletas/entregadas','Boleta/BoletaController.entregadas').middleware('auth')
 Route.get('boletas/add','Boleta/BoletaController.add').middleware('auth')
+Route.get('boletas/grupo','Boleta/BoletaCOntroller.group').middleware('auth')
 Route.post('boletas','Boleta/BoletaController.store').as('boletas').middleware('auth')
-Route.post('boletas/:id', 'Boleta/BoletaController.update').middleware(["auth", "admin"]);
+Route.post('boletas/:id', 'Boleta/BoletaController.update').middleware(["auth"])
 
 
+Route.get('excepcion','Excepcion/ExcepcionController.index').middleware(["auth", "admin"]);
+Route.get('excepcion/create','Excepcion/ExcepcionController.create').middleware(["auth", "admin"])
+Route.get('excepcion/query','Excepcion/ExcepcionController.query').middleware(["auth", "admin"])
+Route.post('excepcion','Excepcion/ExcepcionController.store').as('excepcion').middleware(["auth", "admin"])
 
-Route.on('/ws').render('chat/welcome').middleware(["auth", "admin"]);
+//Route.on('/ws').render('chat/welcome').middleware(["auth", "admin"]);

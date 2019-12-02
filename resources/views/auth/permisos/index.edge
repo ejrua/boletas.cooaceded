@@ -1,0 +1,66 @@
+@layout('layout.app')
+
+@section('content')
+    @include('includes.notification')
+
+    <div class="columns">
+            <div class="column">
+                <h2 class="title has-text-centered">Permisos de usuarios</h2>
+                <table class="table is-striped " >
+                    
+                    <thead>
+                    <tr>
+                        <th>Usuario</th>
+                        <th>email</th>
+                        <th>Activo</th>
+                        <th>Rol</th>
+                    </tr>
+                    </thead>
+                    
+                    <tbody>
+                        @each(user in users)
+                                <tr>
+                                    <th> {{ user.username}}</th>
+                                    <th> {{ user.email }} </th>
+                                    <form action="/permisos/{{user.id}}" method="POST">
+                                        {{ csrfField() }}	
+                                        <div class="control">
+                                            <th>
+                                                <input 
+                                                type="checkbox" 
+                                                name="is_active"
+                                                @if( user.is_active == true)
+                                                    checked
+                                                    
+                                            
+                                                @endif
+                                                >
+                                            </th>    
+                                            <th>
+                                            <div class="select">
+                                                    <select name="roles">
+                                                    <option value="guest"  {{ user.roles=='guest' ? 'selected' : '' }} >Invitado</option>
+                                                    <option value="admin"  {{ user.roles=='admin' ? 'selected' : '' }}>Administrador</option>
+                                                    </select>
+                                                </div>
+                                               
+                                            </th>
+                                            <th>                        
+                                                <button class="button is-success">
+                                                        <span class="icon is-small">
+                                                            <i class="fas fa-check"></i>
+                                                        </span>
+                                                        <span>Actualizar</span>
+                                                </button>
+                                            </div> 
+                                        </form>
+                                    </th>
+                                </tr>
+                        
+                        @endeach
+                    </tbody>
+                </table>        
+            </div>
+        </div>        
+
+@endsection
